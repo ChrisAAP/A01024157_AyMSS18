@@ -20,4 +20,4 @@ int main()
     cout << instance2->getTime() << "\n";
     cout << instance << "\n" << instance2 << "\n";
     return 0;
-}
+}-
