@@ -11,9 +11,9 @@ public:
 class Receiver 
 {
 public:
-    void method1() 
+    void action() 
     {
-        cout << "Method 1\n";
+        cout << "Action\n";
     }
 };
 
@@ -41,7 +41,7 @@ public:
     ConcreteCommand(Receiver *r_temp) : r(r_temp) {}
     void execute() 
     {
-        r -> method1();
+        r -> action();
     }
     
 };

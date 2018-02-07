@@ -1,0 +1,40 @@
+@startuml
+class Galeria{
+    -listaDeCuadros<Cuadros> : Cuadro
+    +getListaCuadro()
+}
+class Cuadro{
+    - description : string
+    - artist : string
+    - year :string
+    + getArtist()
+    + getYear()
+    + getDescription()
+
+}
+class Reporte{
+    - cuadro : Cuadro
+    - nombreVendedor : string
+    - direccionVendedor : string
+    - precioCompra : int
+    + getCuadro
+    + getNombre
+    + getDireccion
+    + getPrecio
+}
+class Reportes{
+    - listaDeReportes<Reporte> : Reporte
+    + getListaResporte()
+    + findSimilar()
+}
+class Osbert{
+    + sell(description, artist, year)
+    + buy(description, artist, year)
+}
+Reportes o-- Reporte
+Osbert -- Reportes
+Osbert -- Galeria
+Cuadro --o Reporte
+Cuadro --o Galeria
+
+@enduml

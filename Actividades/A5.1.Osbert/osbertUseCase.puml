@@ -1,0 +1,16 @@
+@startuml
+
+skinparam packageStyle Rectangle
+left to right direction
+
+:osbert:
+:system:
+rectangle Compra_y_Venta{
+:osbert: -- (InsertSaleInfo)
+(FindPrice) <-- :system:
+:osbert: -- (SetDescription)
+:osbert: -- (Buy/Sell)
+}
+
+
+@enduml
