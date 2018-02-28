@@ -1,0 +1,73 @@
+@startuml
+class Command{
+    +virtual execute()
+}
+class Receiver{
+    +actionSMS(string phone, string text)
+    +actionPHONE(string phone, string name, string message)
+    +actionEMAIL(string from, string to, string subject, string body)
+}
+class Caller{
+    -Command *cmd
+    +setCommand(Command *cmd_temp)
+    +executeAction()
+}
+class ConcreteCommandPhone{
+    -Receiver *r
+    -string phone
+    -string name
+    -string message
+    +execute
+}
+class ConcreteCommandSMS{
+    -Receiver *r
+    -string phone
+    -string message
+    +execute
+}
+class ConcreteCommandEmail{
+    -Receiver *r
+    -string from
+    -string to
+    -string subject
+    -string body
+    +execute
+}
+class Cliente{
+    -string id
+    -string nombre
+    -string apellido
+    -string type_comm
+    -string mail
+    -string phone 
+    -string calle 
+    -string numero 
+    -string colonia 
+    -Caller *caller
+    -Receiver *re
+    +contact()
+    +printClient()
+}
+class Database{
+    -Database *instance
+    -int counter
+    -vector<Cliente> mahbois
+    +getInstance()
+    +destroyInstance()
+    +readFile()
+    +contactMahBois()
+    +printMahBois()
+}
+
+
+Caller *--> Command
+ConcreteCommandPhone --|>Command
+ConcreteCommandSMS --|>Command
+ConcreteCommandEmail --|>Command
+ConcreteCommandPhone --> Receiver
+ConcreteCommandSMS --> Receiver
+ConcreteCommandEmail --> Receiver
+Cliente --> Receiver
+Cliente --> Caller
+Database --> Cliente
+@enduml

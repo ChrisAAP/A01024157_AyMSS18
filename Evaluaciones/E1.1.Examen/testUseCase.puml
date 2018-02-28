@@ -1,0 +1,13 @@
+@startuml
+
+skinparam packageStyle Rectangle
+left to right direction
+
+:system:
+rectangle Notification_Sending_of_new_system{
+(sendNotification) <-- :system:
+
+}
+
+
+@enduml
