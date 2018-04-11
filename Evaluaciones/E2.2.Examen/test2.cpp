@@ -304,24 +304,36 @@ public:
         else
             sort(stock.begin(), stock.end(),greater<VGame*>());
     }
-    VGame* findVG(int sN)
+    void findVG(int sN)
     {
         for(int i = 0; i < stock.size(); i++)
         {
             if (stock[i]->serialNumber == sN)
             {
-                return stock[i];
+                cout << "Video Game #" << i << "\n";
+                cout << "Title: " << stock[i]->title << "\n";
+                cout << "Release Date: " << stock[i]->releaseDate << "\n";
+                cout << "Price: " << stock[i]->price << "\n";
+                cout << "Serial Number: " << stock[i]->serialNumber << "\n\n";
             }
+            else
+                cout << "No game found \n";
         }
     }
-    VGame* findVG(string t)
+    void findVG(string t)
     {
         for(int i = 0; i < stock.size(); i++)
         {
             if (stock[i]->title == t)
             {
-                return stock[i];
+                cout << "Video Game #" << i << "\n";
+                cout << "Title: " << stock[i]->title << "\n";
+                cout << "Release Date: " << stock[i]->releaseDate << "\n";
+                cout << "Price: " << stock[i]->price << "\n";
+                cout << "Serial Number: " << stock[i]->serialNumber << "\n\n";
             }
+            else
+                cout << "No game found \n";
         }
     }
     int numberOfItems()
@@ -418,4 +430,172 @@ int main () {
     store->priceChange(1);
     store->printALL();
     */
+    //Menu
+    int option;
+    int vgprice;
+    int vgserial;
+    string vgtitle;
+    string vgRD;
+    Inventory* store = new Inventory;
+    VGame* foundGame;
+    while(true)
+    {
+        cout << "What do you wish to do? \n" 
+        << "1. Add Video Game to stock\n"
+        << "2. Delete Video Game from stock\n"
+        << "3. Sort Video Games in stock\n"
+        << "4. Find Video Game in stock\n"
+        << "5. Number of Video Games\n"
+        << "6. Show all info from Video Games in stock\n"
+        << "7. Price Change\n"
+        << "8. Exit\n\n";
+        cin >> option;
+        if(option == 1)
+        {
+            cout << "What type of game is it?\n"
+            << "1. Adventure\n"
+            << "2. Strategy\n"
+            << "3. Learning\n";
+            cin >> option;
+            if(option == 1)
+            {
+                cout << "What is the title?\n";
+                cin >> vgtitle;
+                cout << "What is the release date?\n";
+                cin >> vgRD;
+                cout << "What is the price?\n";
+                cin >> vgprice;
+                cout << "What is the serial number?\n";
+                cin >> vgserial;
+                foundGame = new Adventure(vgtitle,vgprice,vgRD,vgserial);
+                store->addVG(foundGame);
+            }
+            else if(option == 2)
+            {
+                cout << "What is the title?\n";
+                cin >> vgtitle;
+                cout << "What is the release date?\n";
+                cin >> vgRD;
+                cout << "What is the price?\n";
+                cin >> vgprice;
+                cout << "What is the serial number?\n";
+                cin >> vgserial;
+                foundGame = new Strategy(vgtitle,vgprice,vgRD,vgserial);
+                store->addVG(foundGame);
+            }
+            else if(option == 4)
+            {
+                cout << "What is the title?\n";
+                cin >> vgtitle;
+                cout << "What is the release date?\n";
+                cin >> vgRD;
+                cout << "What is the price?\n";
+                cin >> vgprice;
+                cout << "What is the serial number?\n";
+                cin >> vgserial;
+                foundGame = new Strategy(vgtitle,vgprice,vgRD,vgserial);
+                store->addVG(foundGame);
+            }
+            else
+            {
+                cout << "Not an option\n\n";
+            }
+
+        }
+        else if(option == 2)
+        {
+            cout << "1. Delete by  serial number\n"
+            << "2. Delete by title\n";
+            cin >> option;
+            if(option == 1)
+            {
+                cout << "What is the serial number?\n";
+                cin >> vgserial;
+                store->elimVG(vgserial);
+            }
+            else if(option == 2)
+            {
+                cout << "What is the title?\n";
+                cin >> vgtitle;
+                store->elimVG(vgtitle);
+            }
+            else
+            {
+                cout << "ERROR NO OPTION\n";
+            }
+
+        }
+        else if(option == 3)
+        {
+            cout << "1. Increasing Price\n"
+            << "2. Decreasing Price\n";
+            cin >> option;
+            if(option == 1)
+                store->sortVG(0);
+            else if(option == 2)
+                store->sortVG(1);
+            else
+            {
+                cout << "ERROR NO OPTION\n";
+            }
+        }
+        else if(option == 4)
+        {
+            cout << "1. Find by  serial number\n"
+            << "2. Find by title\n";
+            cin >> option;
+            if(option == 1)
+            {
+                cout << "What is the serial number?\n";
+                cin >> vgserial;
+                store->findVG(vgserial);
+            }
+            else if(option == 2)
+            {
+                cout << "What is the title?\n";
+                cin >> vgtitle;
+                store->findVG(vgtitle);
+            }
+            else
+            {
+                cout << "ERROR NO OPTION\n";
+            }
+
+        }
+        else if(option == 5)
+        {
+            cout << store->numberOfItems() << "\n";
+        }
+        else if(option == 6)
+        {
+            store->printALL();
+        }
+        else if(option == 7)
+        {
+            cout << "1. Increase in price\n"
+            << "2. Decrease in price\n";
+            cin >> option;
+            if(option == 1)
+            {
+                store->priceChange(1);
+            }
+            else if(option == 2)
+            {
+                store->priceChange(0);
+            }
+            else
+            {
+                cout << "ERROR NO OPTION\n";
+            }
+
+        }
+        else if(option == 8)
+        {
+            break;
+        }
+        else
+        {
+            cout << "ERROR NO OPTION\n";
+        }
+    }
 }
