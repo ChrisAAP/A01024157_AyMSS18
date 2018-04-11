@@ -4,17 +4,24 @@
 #include <algorithm>
 
 using namespace std;
+class VGame;
+class Observer;
+class Observer
+{
+public:
+    virtual void update(string, VGame*) = 0;
+};
 
 class IVisitor;
 class VGame
 {
 private:
-
 public:
     string title;
     int price;
     string releaseDate;
     int serialNumber;
+    vector<Observer*> observers;
     virtual VGame* clone() = 0;
     VGame() { }
     VGame(string t, int p, string rD, int s): title(t),price(p), releaseDate(rD),serialNumber(s)
@@ -43,6 +50,27 @@ public:
         cout << title << " quality assurance..." << "\n";
     }
     virtual void accept(IVisitor*) = 0;
+    void attach(Observer* o){
+        observers.push_back(o);
+    }
+    void dettach(Observer* o)
+    {
+        for(int i = 0; i < observers.size();i++)
+        {
+            if(observers[i] == o)
+            {
+                observers.erase(observers.begin()+i);
+                return;
+            }
+        }
+    }
+    void notifyAll(string release, VGame* vg)
+    {
+        for(int i = 0; i < observers.size(); i++)
+        {
+            observers[i]->update(release, vg);
+        }
+    }
     bool operator < (const VGame& cmp) const
     {
         return (price < cmp.price);
@@ -75,6 +103,7 @@ public:
         price = p;
         releaseDate = rD;
         serialNumber = s;
+        notifyAll(rD, this);
     }
     Strategy(const Strategy& temp)
     {
@@ -82,6 +111,7 @@ public:
         price = temp.price;
         releaseDate = temp.releaseDate;
         serialNumber = temp.serialNumber;
+        notifyAll("NEW " + releaseDate, this);
     }
     VGame* clone()
     {
@@ -101,6 +131,7 @@ public:
         price = p;
         releaseDate = rD;
         serialNumber = s;
+        notifyAll(rD, this);
     }
     Adventure(const Adventure& temp)
     {
@@ -108,6 +139,7 @@ public:
         price = temp.price;
         releaseDate = temp.releaseDate;
         serialNumber = temp.serialNumber;
+        notifyAll("NEW " + releaseDate, this);
     }
     VGame* clone()
     {
@@ -127,6 +159,7 @@ public:
         price = p;
         releaseDate = rD;
         serialNumber = s;
+        notifyAll(rD, this);
     }
     Learning(const Learning& temp)
     {
@@ -134,6 +167,7 @@ public:
         price = temp.price;
         releaseDate = temp.releaseDate;
         serialNumber = temp.serialNumber;
+        notifyAll("NEW " + releaseDate, this);
     }
     VGame* clone()
     {
@@ -259,10 +293,21 @@ public:
 Creator* Creator::instance = nullptr;
 int Creator::counter = 0;
 
+class User : public Observer
+{
+public:
+    string name;
+    void update(string release, VGame *vg)
+    {
+        cout << "Im " << name << " and I recieved info about the " << vg->title << " video game.\n";
+    }
+};
+
 class Inventory
 {
 public:
     vector<VGame*> stock;
+    vector<VGame*> temporalUndo;
     Inventory()
     {
         
@@ -279,6 +324,7 @@ public:
         {
             if (stock[i]->title == t)
             {
+                temporalUndo.push_back(stock[i]);
                 stock.erase(stock.begin() + i);
             }
         }
@@ -289,13 +335,15 @@ public:
         {
             if (stock[i]->serialNumber == sN)
             {
+                temporalUndo.push_back(stock[i]);
                 stock.erase(stock.begin() + i);
             }
         }
     }
     void undo()
     {
-
+        stock.push_back(temporalUndo[temporalUndo.size() - 1]);
+        temporalUndo[temporalUndo.size() - 1];
     }
     void sortVG(bool x)
     {
