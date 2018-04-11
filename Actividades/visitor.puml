@@ -1,0 +1,56 @@
+@startUML
+
+class IVisitor{
+    visit(HyperLink:h) : virtual void
+    visit(Text:t) : virtual void
+    visit(Bold:b) : virtual void
+
+}
+class Document{
+    +list<DocPart> docpart
+    accept(Ivisitor* visitor): void
+
+}
+class DocPart{
+    accept(IVisitor*): virtual void
+}
+class HTMLVisitor{
+    +string out
+    visit(HyperLink:h) : void
+    visit(Text:t) : void
+    visit(Bold:b) : void
+}
+class TextVisitor{
+    +string out
+    visit(HyperLink:h) : void
+    visit(Text:t) : void
+    visit(Bold:b) : void
+}
+class LatexVisitor{
+    +string out
+    visit(HyperLink:h) : void
+    visit(Text:t) : void
+    visit(Bold:b) : void
+}
+class Text{
+    accept(IVisitor:Visitor) : void
+}
+class Bold{
+    accept(IVisitor:Visitor) : void
+}
+class HyperLink{
+    accept(IVisitor:Visitor) : void
+}
+IVisitor <|-- HTMLVisitor
+IVisitor <|-- TextVisitor
+IVisitor <|-- LatexVisitor
+
+DocPart <|-- Text
+DocPart <|-- Bold
+DocPart <|-- HyperLink
+
+Document o-- DocPart
+
+IVisitor <- Document
+
+@endUML

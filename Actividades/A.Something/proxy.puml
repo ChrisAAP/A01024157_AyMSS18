@@ -1,0 +1,22 @@
+@startuml
+
+class Interface{
+    action(): virtual
+}
+
+class Object{
+    Action()
+}
+
+class ProxyObject{
+    action()
+    modify()
+    Object obj;
+}
+
+Interface <- ProxyObject
+Object -> Interface
+
+Object - ProxyObject
+
+@enduml

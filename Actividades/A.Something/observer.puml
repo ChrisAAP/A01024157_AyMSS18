@@ -1,0 +1,33 @@
+@startuml
+
+class Observer{
+    update():virtual
+}
+
+class Subject{
+    attach(Observer)
+    detach(Observer)
+    notifyAll()
+}
+
+class Observer1{
+    update()
+}
+
+class Observer2{
+    update()
+}
+
+class ConcreteSubject{
+
+}
+
+Observer1 -> Observer
+Observer2 -> Observer
+
+Observer -> Subject
+Observer -o Subject
+
+ConcreteSubject -> Subject
+
+@enduml
